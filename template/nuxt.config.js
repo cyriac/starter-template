@@ -36,6 +36,19 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    extractCSS: true,
+    babel: {
+      presets: [
+        'es2015',
+        'stage-0'
+      ],
+      plugins: [
+        ["transform-runtime", {
+          "polyfill": true,
+          "regenerator": true
+        }]
+      ]
+    },
     /*
     ** Run ESLint on save
     */
@@ -48,6 +61,13 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
+    optimization: {
+      splitChunks: {
+        name: true
+      }
+    },
+    extractCSS: { allChunks: true },
+    maxChunkSize: 300000
   }
 }

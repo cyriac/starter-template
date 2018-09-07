@@ -20,7 +20,11 @@ module.exports = {
       'type': 'string',
       'message': 'Author'
     },
+    google_analytics_id: {
+      'type': 'string',
+      'message': 'Google analytics product id',
+      'required': true
+    }
   },
   completeMessage: '{{#inPlace}}To get started:\n\n  npm install # Or yarn\n  npm run dev{{else}}To get started:\n\n  cd {{destDirName}}\n  npm install # Or yarn\n  npm run dev{{/inPlace}}'
 };
-

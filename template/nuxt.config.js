@@ -30,6 +30,9 @@ module.exports = {
   */
   modules: [
     '@nuxtjs/axios',
+    ['@nuxtjs/google-analytics', {
+      id: '{{ google_analytics_id }}'
+    }],
     ['bootstrap-vue/nuxt', { css: false }],
   ],
   /*

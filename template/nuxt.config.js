@@ -30,11 +30,20 @@ module.exports = {
   */
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/sitemap',
     ['@nuxtjs/google-analytics', {
       id: '{{ google_analytics_id }}'
     }],
     ['bootstrap-vue/nuxt', { css: false }],
   ],
+  /*
+  ** Sitemap configuration
+  */
+  sitemap: {
+    path: '/sitemap.xml'
+    gzip: true,
+    generate: true
+  },
   /*
   ** Build configuration
   */

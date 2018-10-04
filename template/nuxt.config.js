@@ -4,18 +4,10 @@ module.exports = {
   */
   head: {
     title: '{{ name }}',
-    script :[
-      { src:"https://code.jquery.com/jquery-3.2.1.slim.min.js", integrity:"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN", crossorigin:"anonymous" },
-      { src:"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js", integrity:"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q", crossorigin:"anonymous" },
-      { src:"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js", integrity:"sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl", crossorigin:"anonymous" },
-      { src:"https://unpkg.com/shards-ui@2.0.3/dist/js/shards.min.js" }
-    ],
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '{{escape description }}' },
-      { rel:"stylesheet", href:"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", integrity:"sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin:"anonymous" },
-      { rel:"stylesheet", href:"https://unpkg.com/shards-ui@2.0.3/dist/css/shards.min.css"}
+      { hid: 'description', name: 'description', content: '{{escape description }}' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -26,6 +18,12 @@ module.exports = {
   */
   loading: { color: '#3B8070' },
   /*
+  ** Plugins
+  */
+  plugins: [
+    '~/plugins/shards'
+  ],
+  /*
   ** Modules for the app
   */
   modules: [
@@ -34,13 +32,13 @@ module.exports = {
     ['@nuxtjs/google-analytics', {
       id: '{{ google_analytics_id }}'
     }],
-    ['bootstrap-vue/nuxt', { css: false }],
+    ['bootstrap-vue/nuxt'],
   ],
   /*
   ** Sitemap configuration
   */
   sitemap: {
-    path: '/sitemap.xml'
+    path: '/sitemap.xml',
     gzip: true,
     generate: true
   },
@@ -48,24 +46,24 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    extractCSS: true,
     babel: {
       presets: [
-        'es2015',
-        'stage-0'
+        '@babel/preset-env'
       ],
       plugins: [
-        ["transform-runtime", {
-          "polyfill": true,
-          "regenerator": true
+        "@babel/plugin-proposal-function-bind", // Stage-0 replacement in babel 7.X
+        "@babel/plugin-syntax-dynamic-import",
+        ["@babel/plugin-transform-runtime", {
+          "corejs": 2,
+          "regenerate": true
         }]
       ]
     },
     /*
     ** Run ESLint on save
     */
-    extend (config, { isDev, isClient }) {
-      if (isDev && isClient) {
+    extend (config, { isDev }) {
+      if (isDev && process.client) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -73,13 +71,6 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    },
-    optimization: {
-      splitChunks: {
-        name: true
-      }
-    },
-    extractCSS: { allChunks: true },
-    maxChunkSize: 300000
+    }
   }
 }
